@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>STATS 220</title>
+    <title>Introduction to R for Data Science</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
@@ -12,7 +12,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# STATS 220
+# Introduction to R for Data Science
 ## Data technology
 
 ---
@@ -24,21 +24,17 @@ class: middle
 
 
 
-## Kia Ora!
+## Who am I?
 
 .large[
-* 🎓 I earned my PhD (Stats) @ Monash University, Australia.
-* ❤️ My research interests lie in exploratory data analysis, data visualisation, software design, ...
-* 👩‍💻 I turn ☕ into &gt; 10 `#rstats` 📦.
-* Outside of work, I play 🎾 and make ☕.
+* 🎓 I earned my B.A. (Mathematical Economics) @ University of Pennsylvania, 2019.
+* I've been a research assistant at the Hutchins Center for Fiscal and Monetary Policy since July 2019!
+* ❤️ My research interests lie in exploratory data analysis, data visualisation, software design, international macroeconomics, and international sociology ...
+
 ]
 
 ???
 
-* phd at the end of 2019, moved to Auckland last Feb
-* I do research in stats computing and graphics. develop new graphical methods, interactive graphics, software for data scientists.
-* a regular contributor and dev to R. One of my most pop packages has been dl millions time last year
-* Amateur tennis player, and make my own flat white.
 
 ---
 
@@ -48,9 +44,8 @@ class: middle
 ]
 .pull-right[
 ## Contact
-* ✉️ &lt;earo.wang@auckland.ac.nz&gt;
-* 📌 Office 303.323
-* 🕛 Thursday 2-3pm
+* ✉️ &lt;malcalakovalski@brookings.edu&gt;
+* 🕛 You can reach out to me at anytime
 ]
 
 ???
@@ -59,30 +54,7 @@ class: middle
 * I'll run my office hours every thursday from this week onwards, same zoom link.
 * If you've got any downloading and installing issues, please drop by my office hours.
 
----
 
-background-image: url(img/class-rep.png)
-background-size: cover
-
-???
-
-I'm looking for 2 class rep. Please nominate yourself over the chat.
-
----
-
-class: inverse middle center
-
-## Data + Technology
-
-### &lt;i class="fas fa-arrow-circle-right"&gt;&lt;/i&gt; &lt;https://stats220.earo.me&gt;
-
-???
-
-* 2nd time to teach. revamped for modern data and modern tech. It's not an easy A+ course.
-* I've made all course materials available on this website instead of canvas
-* give a tour about the website
-
----
 
 ## What I mean by "data"
 
@@ -153,7 +125,7 @@ class: inverse middle center
 
 ---
 
-## Why programme for data science?
+## Why programmi for data science?
 
 * Programming languages are **languages**.
 
@@ -185,7 +157,7 @@ class: inverse middle
 
 * A general-purpose programming language
 * Originated by statisticians, a language for statistical analysis
-* 293964 + packages on [CRAN](https://cran.r-project.org/web/packages/) (Comprehensive R Archive Network, the official repository), Github, etc.
+* 301053 + packages on [CRAN](https://cran.r-project.org/web/packages/) (Comprehensive R Archive Network, the official repository), Github, etc.
 * The [tidyverse](http://tidyverse.org), a domain specific language in R for data scientists
 
 ???
@@ -208,13 +180,13 @@ class: inverse middle
 
 ```r
 library(cowsay)
-say("Kia Ora!")
+say("Miau!")
 ```
 
 ```
 #&gt; 
 #&gt;  -------------- 
-#&gt; Kia Ora! 
+#&gt; Miau! 
 #&gt;  --------------
 #&gt;     \
 #&gt;       \
@@ -358,20 +330,6 @@ class: middle
 * like lego
 * in the first two week, may look easy, I teach basics.
 
----
-
-class: middle
-
-## Assessments
-
-* .brown[11] weekly labs 10% (best 10 out of 11)
-* .brown[3] assignments 30% (each 10%)
-* .brown[1] mid-term test 10% (TBD, possibly week 8)
-* .brown[1] final exam 50%
-
-???
-
-* &gt; 300, automatically grade your labs
 
 ---
 
@@ -427,7 +385,7 @@ Change the RStudio appearance up to your taste
 
 .center[&lt;img src="img/rstudio-appearance.png" width = "80%"&gt;]
 
-<div class="countdown" id="timer_604ec464" style="top:0;right:0;font-size:48px;" data-warnwhen="0">
+<div class="countdown" id="timer_60cb61b9" style="top:0;right:0;font-size:48px;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -440,15 +398,15 @@ Change the RStudio appearance up to your taste
 ## What is a project?
 
 * Each university course is a project, and get your work organised.
-* A self-contained project is a folder that contains all relevant files, for example my `stats220/` 📁 includes:
-   + `stats220.Rproj`
+* A self-contained project is a folder that contains all relevant files, for example my `r_crash_course/` 📁 includes:
+   + `r_crash_course.Rproj`
    + `data/`
      + `*.csv`, `*.xlsx`
    + `lectures/`
      + `01-intro.Rmd`, `02-import-export.Rmd`
    + `labs/`
      + `lab01.R`, `lab02.R`
-* All working files are .red[relative] to the **project root** (i.e. `stats220/`).
+* All working files are .red[relative] to the **project root** (i.e. `r_crash_course/`).
 * The project should just work on a different computer.
 
 ---
@@ -458,7 +416,7 @@ Change the RStudio appearance up to your taste
 [Jenny Bryan](https://jennybryan.org) will [set your computer on fire 🔥](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
 1. if the first line of your R script is
   ```r
-    setwd("C:\Users\jenny\path\that\only\I\have")
+    setwd("C:\Users\some\path\that\only\I\have")
   ```
 2. if the first line of your R script is
   ```r
@@ -873,7 +831,7 @@ mean(x, trim = 0, na.rm = FALSE, ...)
   + What does `trim` do?
 * Run **Example** code
 
-<div class="countdown" id="timer_604ec5e7" style="top:0;right:0;font-size:48px;" data-warnwhen="0">
+<div class="countdown" id="timer_60cb614d" style="top:0;right:0;font-size:48px;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 

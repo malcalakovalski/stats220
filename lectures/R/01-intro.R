@@ -1,6 +1,6 @@
 ## ---- cowsay
 library(cowsay)
-say("Kia Ora!")
+say("Miau!")
 
 ## ---- store-values
 akl_lon <- 174.76

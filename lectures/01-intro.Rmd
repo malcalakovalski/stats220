@@ -1,5 +1,5 @@
 ---
-title: "STATS 220"
+title: "Introduction to R for Data Science"
 subtitle: "Data technology"
 type: "lecture"
 date: ""
@@ -32,21 +32,17 @@ opts_chunk$set(
 read_chunk('R/01-intro.R')
 ```
 
-## Kia Ora!
+## Who am I?
 
 .large[
-* `r emo::ji("mortar_board")` I earned my PhD (Stats) @ Monash University, Australia.
-* `r emo::ji("heart")` My research interests lie in exploratory data analysis, data visualisation, software design, ...
-* `r emo::ji("woman_technologist")` I turn `r emo::ji("coffee")` into > 10 `#rstats` `r emo::ji("package")`.
-* Outside of work, I play `r emo::ji("tennis")` and make `r emo::ji("coffee")`.
+* `r emo::ji("mortar_board")` I earned my B.A. (Mathematical Economics) @ University of Pennsylvania, 2019.
+* I've been a research assistant at the Hutchins Center for Fiscal and Monetary Policy since July 2019!
+* `r emo::ji("heart")` My research interests lie in exploratory data analysis, data visualisation, software design, international macroeconomics, and international sociology ...
+
 ]
 
 ???
 
-* phd at the end of 2019, moved to Auckland last Feb
-* I do research in stats computing and graphics. develop new graphical methods, interactive graphics, software for data scientists.
-* a regular contributor and dev to R. One of my most pop packages has been dl millions time last year
-* Amateur tennis player, and make my own flat white.
 
 ---
 
@@ -56,9 +52,8 @@ class: middle
 ]
 .pull-right[
 ## Contact
-* `r emo::ji("email")` <earo.wang@auckland.ac.nz>
-* `r emo::ji("pushpin")` Office 303.323
-* `r emo::ji("clock12")` Thursday 2-3pm
+* `r emo::ji("email")` <malcalakovalski@brookings.edu>
+* `r emo::ji("clock12")` You can reach out to me at anytime
 ]
 
 ???
@@ -67,30 +62,7 @@ class: middle
 * I'll run my office hours every thursday from this week onwards, same zoom link.
 * If you've got any downloading and installing issues, please drop by my office hours.
 
----
 
-background-image: url(img/class-rep.png)
-background-size: cover
-
-???
-
-I'm looking for 2 class rep. Please nominate yourself over the chat.
-
----
-
-class: inverse middle center
-
-## Data + Technology
-
-### <i class="fas fa-arrow-circle-right"></i> <https://stats220.earo.me>
-
-???
-
-* 2nd time to teach. revamped for modern data and modern tech. It's not an easy A+ course.
-* I've made all course materials available on this website instead of canvas
-* give a tour about the website
-
----
 
 ## What I mean by "data"
 
@@ -161,7 +133,7 @@ class: inverse middle center
 
 ---
 
-## Why programme for data science?
+## Why programmi for data science?
 
 * Programming languages are **languages**.
 ```{r eval = FALSE}
@@ -341,20 +313,6 @@ class: middle
 * like lego
 * in the first two week, may look easy, I teach basics.
 
----
-
-class: middle
-
-## Assessments
-
-* .brown[11] weekly labs 10% (best 10 out of 11)
-* .brown[3] assignments 30% (each 10%)
-* .brown[1] mid-term test 10% (TBD, possibly week 8)
-* .brown[1] final exam 50%
-
-???
-
-* > 300, automatically grade your labs
 
 ---
 
@@ -421,15 +379,15 @@ Change the RStudio appearance up to your taste
 ## What is a project?
 
 * Each university course is a project, and get your work organised.
-* A self-contained project is a folder that contains all relevant files, for example my `stats220/` `r emo::ji("folder")` includes:
-   + `stats220.Rproj`
+* A self-contained project is a folder that contains all relevant files, for example my `r_crash_course/` `r emo::ji("folder")` includes:
+   + `r_crash_course.Rproj`
    + `data/`
      + `*.csv`, `*.xlsx`
    + `lectures/`
      + `01-intro.Rmd`, `02-import-export.Rmd`
    + `labs/`
      + `lab01.R`, `lab02.R`
-* All working files are .red[relative] to the **project root** (i.e. `stats220/`).
+* All working files are .red[relative] to the **project root** (i.e. `r_crash_course/`).
 * The project should just work on a different computer.
 
 ---
@@ -439,7 +397,7 @@ Change the RStudio appearance up to your taste
 [Jenny Bryan](https://jennybryan.org) will [set your computer on fire `r emo::ji("fire")`](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
 1. if the first line of your R script is
   ```r
-    setwd("C:\Users\jenny\path\that\only\I\have")
+    setwd("C:\Users\some\path\that\only\I\have")
   ```
 2. if the first line of your R script is
   ```r
