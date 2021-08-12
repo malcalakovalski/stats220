@@ -5,7 +5,7 @@ type: "lecture"
 date: ""
 output:
   xaringan::moon_reader:
-    css: ["assets/remark.css"]
+    css: [rladies]
     lib_dir: libs
     nature:
       ratio: 16:9
@@ -32,12 +32,15 @@ opts_chunk$set(
 read_chunk('R/01-intro.R')
 ```
 
+
+
+
 ## Who am I?
 
 .large[
 * `r emo::ji("mortar_board")` I earned my B.A. (Mathematical Economics) @ University of Pennsylvania, 2019.
-* I've been a research assistant at the Hutchins Center for Fiscal and Monetary Policy since July 2019!
-* `r emo::ji("heart")` My research interests lie in exploratory data analysis, data visualisation, software design, international macroeconomics, and international sociology ...
+* `r emo::ji('book')` I've been a research assistant at the Hutchins Center for Fiscal and Monetary Policy since July 2019!
+* `r emo::ji("heart")` My research interests lie in exploratory data analysis, data visualization, software design, international macroeconomics, and economic sociology ...
 
 ]
 
@@ -133,7 +136,7 @@ class: inverse middle center
 
 ---
 
-## Why programmi for data science?
+## Why programming for data science?
 
 * Programming languages are **languages**.
 ```{r eval = FALSE}

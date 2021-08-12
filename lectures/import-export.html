@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>STATS 220</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="assets/remark.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# STATS 220
+## Data import⬇️/export⬆️
+
+---
+
+
+
+
+
+
+
+
+## Atomic vector (1d)
+
+.center[&lt;img src="img/lego-vector.png" width="55%"&gt;]
+
+
+```r
+dept &lt;- c("Physics", "Mathematics", "Statistics", "Computer Science")
+nstaff &lt;- c(12L, 8L, 20L, 23L)
+```
+
+.footnote[image credit: Jenny Bryan]
+
+???
+
+* an ensemble of scalars -&gt; vectors
+
+---
+
+## 1d ➡️ 2d 
+
+.pull-left[
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.center[&lt;img src="img/lego-df.png" width="100%"&gt;]
+]
+.pull-right[
+
+```r
+library(tibble)
+sci_tbl &lt;- tibble(
+  department = dept, 
+  count = nstaff, 
+  percentage = count / sum(count))
+sci_tbl
+```
+
+```
+#&gt; # A tibble: 4 x 3
+#&gt;   department       count percentage
+#&gt;   &lt;chr&gt;            &lt;int&gt;      &lt;dbl&gt;
+#&gt; 1 Physics             12      0.190
+#&gt; 2 Mathematics          8      0.127
+#&gt; 3 Statistics          20      0.317
+#&gt; 4 Computer Science    23      0.365
+```
+]
+
+.footnote[image credit: Jenny Bryan]
+
+
+???
+
+* an ensemble of vectors -&gt; rect data/tabular data, like spreadsheet
+
+---
+
+class: inverse middle
+
+## Beyond 1d vectors
+
+### 1. Lists
+
+### 2. Matrices and arrays
+
+### 3. Data frames and tibbles
+
+???
+
+* Common data strs beyond 1d
+* start with the most flex one
+* briefly talk about mat
+* focus on data frames, more specifically tibbles
+
+---
+
+.left-column[
+## data strs
+### - lists
+]
+.right-column[
+An object contains elements of **different data types**.
+
+```r
+lst &lt;- list( # list constructor/creator
+  1:3, 
+  "a", 
+  c(TRUE, FALSE, TRUE), 
+  c(2.3, 5.9)
+)
+lst
+```
+
+```
+#&gt; [[1]]
+#&gt; [1] 1 2 3
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] "a"
+#&gt; 
+#&gt; [[3]]
+#&gt; [1]  TRUE FALSE  TRUE
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] 2.3 5.9
+```
+]
+
+???
+
+* to create a list using `list()`
+* put 4 atomic vectors inside my lst
+* a list of 4 elements, or length of 4
+
+---
+
+.left-column[
+## data strs
+### - lists
+]
+.right-column[
+&lt;img src="https://d33wubrfki0l68.cloudfront.net/9628eed602df6fd55d9bced4fba0a5a85d93db8a/36c16/diagrams/vectors/list.png" width="100%"&gt;
+.pull-left[
+## data type
+
+```r
+typeof(lst) # primitive type
+```
+
+```
+#&gt; [1] "list"
+```
+## data class
+
+```r
+class(lst) # type + attributes
+```
+
+```
+#&gt; [1] "list"
+```
+]
+.pull-right[
+## data structure
+
+```r
+str(lst)
+# el can be of diff lengths
+```
+
+```
+#&gt; List of 4
+#&gt;  $ : int [1:3] 1 2 3
+#&gt;  $ : chr "a"
+#&gt;  $ : logi [1:3] TRUE FALSE TRUE
+#&gt;  $ : num [1:2] 2.3 5.9
+```
+]
+]
+
+???
+
+* vis rep: a container, 4 items inside
+* primitive: original, cannot be modified
+* class: type + attrs, can be modified
+* rstudio values uses `str()`
+
+---
+
+.left-column[
+## data strs
+### - lists
+]
+.right-column[
+.pull-left[
+
+```r
+lst
+```
+
+```
+#&gt; [[1]]
+#&gt; [1] 1 2 3
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] "a"
+#&gt; 
+#&gt; [[3]]
+#&gt; [1]  TRUE FALSE  TRUE
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] 2.3 5.9
+```
+]
+.pull-right[
+.center[&lt;img src="img/lst.png" height="100%"&gt;]
+]
+]
+
+---
+
+.left-column[
+## data strs
+### - lists
+]
+.right-column[
+A list can contain other lists, i.e. **recursive**
+
+```r
+# a named list
+str(list(first_el = lst, second_el = mtcars))
+```
+
+```
+#&gt; List of 2
+#&gt;  $ first_el :List of 4
+#&gt;   ..$ : int [1:3] 1 2 3
+#&gt;   ..$ : chr "a"
+#&gt;   ..$ : logi [1:3] TRUE FALSE TRUE
+#&gt;   ..$ : num [1:2] 2.3 5.9
+#&gt;  $ second_el:'data.frame':	32 obs. of  11 variables:
+#&gt;   ..$ mpg : num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+#&gt;   ..$ cyl : num [1:32] 6 6 4 6 8 6 8 4 4 6 ...
+#&gt;   ..$ disp: num [1:32] 160 160 108 258 360 ...
+#&gt;   ..$ hp  : num [1:32] 110 110 93 110 175 105 245 62 95 123 ...
+#&gt;   ..$ drat: num [1:32] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+#&gt;   ..$ wt  : num [1:32] 2.62 2.88 2.32 3.21 3.44 ...
+#&gt;   ..$ qsec: num [1:32] 16.5 17 18.6 19.4 17 ...
+#&gt;   ..$ vs  : num [1:32] 0 0 1 1 0 1 0 1 1 1 ...
+#&gt;   ..$ am  : num [1:32] 1 1 1 0 0 0 0 0 0 0 ...
+#&gt;   ..$ gear: num [1:32] 4 4 4 3 3 3 3 4 4 4 ...
+#&gt;   ..$ carb: num [1:32] 4 4 1 1 2 1 4 2 2 4 ...
+```
+]
+
+???
+
+* most flex: put a list into a list
+* a named list
+
+---
+
+.left-column[
+## data strs
+### - lists
+]
+.right-column[
+.pull-left[
+Test for a list
+
+```r
+is.list(lst)
+```
+
+```
+#&gt; [1] TRUE
+```
+]
+.pull-right[
+Coerce to a list
+
+```r
+as.list(1:3)
+```
+
+```
+#&gt; [[1]]
+#&gt; [1] 1
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 2
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] 3
+```
+]
+]
+
+???
+
+* to test if an object is one type, funs prefixed `is`
+* to coerce/convert from one type to another type, funs prefixed with `as`
+* from a vector of integers to a list
+
+---
+
+.left-column[
+## data strs
+### - lists
+]
+.right-column[
+.pull-left[
+Subset by `[]`
+
+```r
+lst[1]
+```
+
+```
+#&gt; [[1]]
+#&gt; [1] 1 2 3
+```
+]
+.pull-right[
+Subset by `[[]]`
+
+```r
+lst[[1]]
+```
+
+```
+#&gt; [1] 1 2 3
+```
+]
+
+.center[![](img/pepper.png)]
+
+.footnote[image credit: Hadley Wickham]
+]
+
+---
+
+.left-column[
+## data strs
+### - lists
+### - matrices
+]
+.right-column[
+2D structure of homogeneous data types
+* `matrix()` to construct a matrix
+
+```r
+matrix(1:9, nrow = 3)
+```
+
+```
+#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    4    7
+#&gt; [2,]    2    5    8
+#&gt; [3,]    3    6    9
+```
+* `as.matrix()` to coerce to a matrix
+* `is.matrix()` to test for a matrix
+]
+
+???
+
+* we don't deal with matrix in 220, matrix for computational stats.
+
+---
+
+.left-column[
+## data strs
+### - lists
+### - matrices
+]
+.right-column[
+**array**: more than 2D matrix
+
+```r
+array(1:9, dim = c(1, 3, 3))
+```
+
+```
+#&gt; , , 1
+#&gt; 
+#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    2    3
+#&gt; 
+#&gt; , , 2
+#&gt; 
+#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    4    5    6
+#&gt; 
+#&gt; , , 3
+#&gt; 
+#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    7    8    9
+```
+]
+
+---
+
+.left-column[
+## data strs
+### - lists
+### - matrices
+### - tibbles
+]
+.right-column[
+A data frame is a **named list** of vectors of the **same length**.
+
+```r
+sci_df &lt;- data.frame(
+  department = dept, 
+  count = nstaff)
+sci_df
+```
+
+```
+#&gt;         department count
+#&gt; 1          Physics    12
+#&gt; 2      Mathematics     8
+#&gt; 3       Statistics    20
+#&gt; 4 Computer Science    23
+```
+]
+
+---
+
+.left-column[
+## data strs
+### - lists
+### - matrices
+### - tibbles
+]
+.right-column[
+The underlying data type is a list.
+
+```r
+typeof(sci_df)
+```
+
+```
+#&gt; [1] "list"
+```
+.pull-left[
+.center[data class]
+
+```r
+class(sci_df)
+```
+
+```
+#&gt; [1] "data.frame"
+```
+]
+.pull-right[
+.center[data attributes (meta info)]
+
+```r
+attributes(sci_df)
+```
+
+```
+#&gt; $names
+#&gt; [1] "department" "count"     
+#&gt; 
+#&gt; $class
+#&gt; [1] "data.frame"
+#&gt; 
+#&gt; $row.names
+#&gt; [1] 1 2 3 4
+```
+]
+]
+
+???
+
+* `data.frame` represents tabular data in R
+* attributes: colnames and rownames
+
+---
+
+.left-column[
+## data strs
+### - lists
+### - matrices
+### - tibbles
+]
+.right-column[
+A tibble is a **modern reimagining** of the data frame.
+
+```r
+library(tibble)
+sci_tbl &lt;- tibble(
+  department = dept, 
+  count = nstaff, 
+  percentage = count / sum(count))
+sci_tbl
+```
+
+```
+#&gt; # A tibble: 4 x 3
+#&gt;   department       count percentage
+#&gt;   &lt;chr&gt;            &lt;int&gt;      &lt;dbl&gt;
+#&gt; 1 Physics             12      0.190
+#&gt; 2 Mathematics          8      0.127
+#&gt; 3 Statistics          20      0.317
+#&gt; 4 Computer Science    23      0.365
+```
+* `as_tibble()` to coerce to a tibble
+* `is_tibble()` to test for a tibble
+]
+
+???
+
+* why we call it `tibble`
+
+---
+
+.left-column[
+## data strs
+### - lists
+### - matrices
+### - tibbles
+]
+.right-column[
+.center[
+&lt;img src="https://d33wubrfki0l68.cloudfront.net/9ec5e1f8982238a413847eb5c9bbc5dcf44c9893/bc590/diagrams/vectors/summary-tree-s3-2.png" width="250"&gt;
+]
+
+```r
+typeof(sci_tbl) # list in essence
+```
+
+```
+#&gt; [1] "list"
+```
+
+```r
+class(sci_tbl) # tibble is a special class of data.frame
+```
+
+```
+#&gt; [1] "tbl_df"     "tbl"        "data.frame"
+```
+]
+
+???
+
+* multi cls: left to right, specific to more general
+
+---
+
+## Why tibble not data frame?
+
+.pull-left[
+
+```r
+sci_df &lt;- data.frame(
+  department = dept, 
+  count = nstaff)
+sci_df
+```
+
+```
+#&gt;         department count
+#&gt; 1          Physics    12
+#&gt; 2      Mathematics     8
+#&gt; 3       Statistics    20
+#&gt; 4 Computer Science    23
+```
+]
+.pull-right[
+
+```r
+sci_tbl &lt;- tibble(
+  department = dept, 
+  count = nstaff, 
+* percentage = count / sum(count))
+sci_tbl
+```
+
+
+```
+*#&gt; # A tibble: 4 x 3
+#&gt;   department       count percentage
+*#&gt;   &lt;chr&gt;            &lt;int&gt;      &lt;dbl&gt;
+#&gt; 1 Physics             12      0.190
+#&gt; 2 Mathematics          8      0.127
+#&gt; 3 Statistics          20      0.317
+#&gt; 4 Computer Science    23      0.365
+```
+]
+
+???
+
+* tibble's display: friendly &amp; informative
+
+---
+
+## Glimpse data
+
+
+```r
+glimpse(sci_tbl) # to replace str()
+```
+
+```
+#&gt; Rows: 4
+#&gt; Columns: 3
+#&gt; $ department &lt;chr&gt; "Physics", "Mathematics", "Statistics",…
+#&gt; $ count      &lt;int&gt; 12, 8, 20, 23
+#&gt; $ percentage &lt;dbl&gt; 0.1904762, 0.1269841, 0.3174603, 0.3650…
+```
+
+Data types and their abbreviations
+
+.pull-left[
+* `chr`: character
+* `dbl`: double
+* `int`: integer
+* `lgl`: logical
+]
+.pull-right[
+* `fct`: factor
+* `date`: date
+* `dttm`: date-time
+* more [column data types](https://tibble.tidyverse.org/articles/types.html)
+]
+
+???
+
+text in pink suggest links
+
+---
+
+## Subsetting tibble
+
+.left-column[
+### - to 1d
+]
+.right-column[
+* with `[[]]` or `$`
+
+```r
+sci_tbl[["count"]] # col name
+```
+
+```
+#&gt; [1] 12  8 20 23
+```
+
+```r
+sci_tbl[[2]] # col pos
+```
+
+```
+#&gt; [1] 12  8 20 23
+```
+
+```r
+sci_tbl$count # col name
+```
+
+```
+#&gt; [1] 12  8 20 23
+```
+]
+
+---
+
+## Subsetting tibble
+
+.left-column[
+### - to 1d
+### - by columns
+]
+.right-column[
+* with `[]` or `[, col]`
+
+.pull-left[
+
+```r
+sci_tbl["count"]
+```
+
+```
+#&gt; # A tibble: 4 x 1
+#&gt;   count
+#&gt;   &lt;int&gt;
+#&gt; 1    12
+#&gt; 2     8
+#&gt; 3    20
+#&gt; 4    23
+```
+]
+.pull-right[
+
+```r
+sci_tbl[2] # sci_tbl[, 2]
+```
+
+```
+#&gt; # A tibble: 4 x 1
+#&gt;   count
+#&gt;   &lt;int&gt;
+#&gt; 1    12
+#&gt; 2     8
+#&gt; 3    20
+#&gt; 4    23
+```
+]
+]
+
+---
+
+## Subsetting tibble
+
+.left-column[
+### - to 1d
+### - by columns
+### - by rows
+]
+.right-column[
+* with `[row, ]`
+
+.pull-left[
+
+```r
+sci_tbl[c(1, 3), ]
+```
+
+```
+#&gt; # A tibble: 2 x 3
+#&gt;   department count percentage
+#&gt;   &lt;chr&gt;      &lt;int&gt;      &lt;dbl&gt;
+#&gt; 1 Physics       12      0.190
+#&gt; 2 Statistics    20      0.317
+```
+]
+.pull-right[
+
+```r
+sci_tbl[-c(2, 4), ]
+```
+
+```
+#&gt; # A tibble: 2 x 3
+#&gt;   department count percentage
+#&gt;   &lt;chr&gt;      &lt;int&gt;      &lt;dbl&gt;
+#&gt; 1 Physics       12      0.190
+#&gt; 2 Statistics    20      0.317
+```
+]
+]
+
+---
+
+## Subsetting tibble
+
+.left-column[
+### - to 1d
+### - by columns
+### - by rows
+### - by cols &amp; rows
+]
+.right-column[
+* with `[row, col]`
+
+
+```r
+sci_tbl[1:3, 2]
+## sci_tbl[-4, 2]
+## sci_tbl[1:3, "count"]
+## sci_tbl[c(rep(TRUE, 3), FALSE), 2]
+```
+
+```
+#&gt; # A tibble: 3 x 1
+#&gt;   count
+#&gt;   &lt;int&gt;
+#&gt; 1    12
+#&gt; 2     8
+#&gt; 3    20
+```
+]
+
+---
+
+## Subsetting tibble
+
+* Use `[[` to extract 1d vectors from 2d tibbles
+* Use `[` to subset tibbles to a new tibble
+  + numbers (positive/negative) as indices
+  + characters (column names) as indices
+  + logicals as indices
+
+
+```r
+sci_tbl[1:3, 2]
+sci_tbl[-4, 2]
+sci_tbl[1:3, "count"]
+sci_tbl[c(rep(TRUE, 3), FALSE), 2]
+```
+
+---
+
+class: middle inverse
+
+## The [tidyverse](https://www.tidyverse.org) is an opinionated [collection of R packages](https://www.tidyverse.org/packages/) designed for data science. *All packages share an underlying design philosophy, grammar, and data structures.*
+
+---
+
+## Use {tidyverse}
+
+
+```r
+library(tidyverse)
+```
+
+```
+#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+```
+
+```
+#&gt; ✔ ggplot2 3.3.3     ✔ purrr   0.3.4
+#&gt; ✔ tibble  3.1.0     ✔ dplyr   1.0.5
+#&gt; ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+#&gt; ✔ readr   1.4.0     ✔ forcats 0.5.1
+```
+
+```
+#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+#&gt; ✖ dplyr::filter() masks stats::filter()
+#&gt; ✖ dplyr::lag()    masks stats::lag()
+```
+
+---
+
+class: inverse middle
+
+# Data import ⬇️
+
+---
+
+background-image: url(img/pisa.png)
+
+.footnote[&lt;https://www.oecd.org/pisa/&gt;]
+
+???
+
+* 3M students from more than 90 countries
+* conducted every 3 yrs
+
+---
+
+.left-column[
+.center[&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png" width="60%"&gt;]
+]
+.right-column[
+## Reading plain-text rectangular files
+### .small[(a.k.a. flat or spreadsheet-like files)]
+* delimited text files with `read_delim()`
+  + `.csv`: comma separated values with `read_csv()`
+  + `.tsv`: tab separated values `read_tsv()`
+* `.fwf`: fixed width files with `read_fwf()`
+&lt;hr&gt;
+
+```bash
+head -4 data/pisa/pisa-student.csv # shell command, not R
+```
+
+```
+#&gt; year,country,school_id,student_id,mother_educ,father_educ,gender,computer,internet,math,read,science,stu_wgt,desk,room,dishwasher,television,computer_n,car,book,wealth,escs
+#&gt; 2000,ALB,1001,1,NA,NA,female,NA,no,324.35,397.87,345.66,2.16,yes,no,no,1,3+,1,11-50,-0.6,0.10575582991490981
+#&gt; 2000,ALB,1001,3,NA,NA,female,NA,no,NA,368.41,385.83,2.16,yes,yes,no,2,0,0,1-10,-1.84,-1.424044581128788
+#&gt; 2000,ALB,1001,6,NA,NA,male,NA,no,NA,294.17,327.94,2.16,yes,yes,no,2,0,0,1-10,-1.46,-1.306683855365612
+```
+]
+
+---
+
+.left-column[
+.center[&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png" width="60%"&gt;]
+]
+.right-column[
+## Reading comma delimited files
+
+```r
+library(readr) # library(tidyverse)
+pisa &lt;- read_csv("data/pisa/pisa-student.csv", n_max = 2929621)
+pisa
+```
+
+```
+#&gt; # A tibble: 2,929,621 x 22
+#&gt;    year country school_id student_id mother_educ father_educ
+#&gt;   &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;       &lt;lgl&gt;      
+#&gt; 1  2000 ALB          1001          1 NA          NA         
+#&gt; 2  2000 ALB          1001          3 NA          NA         
+#&gt; 3  2000 ALB          1001          6 NA          NA         
+#&gt; 4  2000 ALB          1001          8 NA          NA         
+#&gt; 5  2000 ALB          1001         11 NA          NA         
+#&gt; 6  2000 ALB          1001         12 NA          NA         
+#&gt; # … with 2,929,615 more rows, and 16 more variables:
+#&gt; #   gender &lt;chr&gt;, computer &lt;lgl&gt;, internet &lt;chr&gt;,
+#&gt; #   math &lt;dbl&gt;, read &lt;dbl&gt;, science &lt;dbl&gt;, stu_wgt &lt;dbl&gt;,
+#&gt; #   desk &lt;chr&gt;, room &lt;chr&gt;, dishwasher &lt;chr&gt;,
+#&gt; #   television &lt;chr&gt;, computer_n &lt;chr&gt;, car &lt;chr&gt;,
+#&gt; #   book &lt;chr&gt;, wealth &lt;dbl&gt;, escs &lt;dbl&gt;
+```
+]
+
+???
+
+* from external files in a disk to a tibble obj in R
+
+---
+
+## Let's talk about the file path again!
+
+
+```r
+pisa &lt;- read_csv("data/pisa/pisa-student.csv", n_max = 2929621)
+```
+
+`data/pisa/pisa-student.csv` relative to the top-level (or root) directory:
+
+* `stats220.Rproj`
+* `data/`
+  * `pisa/pisa-student.csv`
+
+If you don't like `/`, you can use `here::here()` instead.
+
+
+```r
+read_csv(here::here("data", "pisa", "pisa-student.csv"))
+```
+
+.footnote[NOTE: I use the `here()` function from the {here} package using `pkg::fun()`, without calling `library(here)` the ususal way.]
+
+---
+
+.left-column[
+.center[&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png" width="60%"&gt;]
+]
+.right-column[
+## `read_csv()` arguments with [`?read_csv()`](https://readr.tidyverse.org/reference/read_delim.html)
+
+```r
+read_csv(
+  file,
+  col_names = TRUE,
+  col_types = NULL,
+  locale = default_locale(),
+  na = c("", "NA"),
+  quoted_na = TRUE,
+  quote = "\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  progress = show_progress(),
+  skip_empty_rows = TRUE
+)
+```
+]
+
+???
+
+* w/o using arguments, readr makes smart guesses, which means take a little longer
+* more specific, speed up the reading
+
+---
+
+.left-column[
+.center[&lt;img src="https://github.com/r-lib/vroom/blob/master/man/figures/logo.png?raw=true" width="75%"&gt;]
+]
+.right-column[
+## Faster delimited reader at **1.4GB/sec**
+
+.center[![](https://github.com/r-lib/vroom/raw/gh-pages/taylor.gif)]
+
+
+```r
+library(vroom)
+pisa &lt;- vroom("data/pisa/pisa-student.csv", n_max = 2929621)
+```
+]
+
+???
+
+* {readr} as toyota, {vroom} sports car
+* super optimized for fast reading, likely have edge cases, better not for production
+* when {vroom} moves to a more stable lifecylce, backend {readr}
+
+---
+
+.left-column[
+.center[&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readxl.png" width="60%"&gt;]
+]
+.right-column[
+## Reading proprietary binary files
+* Microsoft Excel
+  + `.xls`: MSFT Excel 2003 and earlier
+  + `.xlsx`: MSFT Excel 2007 and later
+
+```r
+library(readxl)
+time_use &lt;- read_xlsx("data/time-use-oecd.xlsx")
+time_use
+```
+
+```
+#&gt; # A tibble: 461 x 3
+#&gt;   Country   Category  `Time (minutes)`
+#&gt;   &lt;chr&gt;     &lt;chr&gt;                &lt;dbl&gt;
+#&gt; 1 Australia Paid work             211.
+#&gt; 2 Austria   Paid work             280.
+#&gt; 3 Belgium   Paid work             194.
+#&gt; 4 Canada    Paid work             269.
+#&gt; 5 Denmark   Paid work             200.
+#&gt; 6 Estonia   Paid work             231.
+#&gt; # … with 455 more rows
+```
+]
+
+???
+
+* contrasting to plain-text, binary files have to be opened by a certain app
+
+---
+
+.left-column[
+.center[&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/haven.png" width="60%"&gt;]
+]
+.right-column[
+## Reading proprietary binary files
+* SAS
+  + `.sas7bdat` with `read_sas()`
+* Stata
+  + `.dta` with `read_dta()`
+* SPSS
+  + `.sav` with `read_sav()`
+
+```r
+library(haven)
+pisa2018 &lt;- read_spss("data/pisa/CY07_MSU_STU_QQQ.sav")
+```
+&lt;hr&gt;
+Raw PISA data is made available in SAS and SPSS data formats.
+.footnote[
+data source: [https://www.oecd.org/pisa/data/2018database/](https://www.oecd.org/pisa/data/2018database/)
+]
+]
+
+---
+
+class: middle
+
+## Your turn
+
+&gt; What is the R data format for a single object? What is its file extension?
+
+---
+
+class: middle
+
+## Well, SQL!
+
+* **Structured Query Language** for accessing and manipulating databases.
+* Relational database management systems
+  + [SQLite](https://www.sqlite.org/index.html)
+  + [MySQL](https://www.mysql.com)
+  + PostgresSQL
+  + BigQuery
+  + Spark SQL
+
+### However, 220 is all about R!
+
+---
+
+.left-column[
+## {DBI}
+]
+.right-column[
+## Connecting R to database*
+
+```r
+library(RSQLite)
+con &lt;- dbConnect(SQLite(), dbname = "data/pisa/pisa-student.db")
+dbListTables(con)
+```
+
+```
+#&gt; [1] "pisa"
+```
+
+```r
+dbListFields(con, "pisa")
+```
+
+```
+#&gt;  [1] "year"        "country"     "school_id"   "student_id"  "mother_educ"
+#&gt;  [6] "father_educ" "gender"      "computer"    "internet"    "math"       
+#&gt; [11] "read"        "science"     "stu_wgt"     "desk"        "room"       
+#&gt; [16] "dishwasher"  "television"  "computer_n"  "car"         "book"       
+#&gt; [21] "wealth"      "escs"
+```
+.footnote[NOTE: slides marked with `*` are not examinable.]
+]
+
+???
+
+* dbi: database interface, communicating b/t R and db
+* connecting to SQLite
+* multi tables typically: students, schools
+* fields = column names
+
+---
+
+.left-column[
+## {DBI}
+]
+.right-column[
+## Connecting R to database*
+* reading data from database
+
+```r
+pisa &lt;- dbReadTable(con, "pisa")
+```
+
+* writing SQL queries to read chunks
+
+```r
+res &lt;- dbSendQuery(con, "SELECT * FROM pisa WHERE year = 2018")
+pisa2018 &lt;- dbFetch(res)
+```
+
+* closing connection
+
+```r
+dbDisconnect(con)
+```
+]
+
+---
+
+.left-column[
+.center[&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png" width="60%"&gt;]
+]
+.right-column[
+## Reading chunks for larger than memory data*
+
+```r
+chunked &lt;- function(x, pos) {
+  dplyr::filter(x, year == 2018)
+}
+pisa2018 &lt;- read_csv_chunked("data/pisa/pisa-student.csv",
+  callback = DataFrameCallback$new(chunked))
+```
+]
+
+???
+
+* GPU, disk size, RAM
+* data files in disk
+* R obj in RAM
+* crashed, blow up my RAM for reading pisa twice
+
+---
+
+.left-column[
+## {jsonlite}
+]
+.right-column[
+## JSON: JavaScript Object Notation
+
+* object: `{}`
+* array: `[]`
+* value: string/character, number, object, array, logical, `null`
+
+.pull-left[
+### JSON
+```json
+{
+  "firstName": "Earo",
+  "lastName": "Wang",
+  "address": {
+    "city": "Auckland",
+    "postalCode": 1010
+  }
+  "logical": [true, false]
+}
+```
+]
+.pull-right[
+### R list
+```r
+list(
+  firstName = "Earo",
+  lastName = "Wang",
+  address = list(
+    city = "Auckland",
+    postalCode = 1010
+  ),
+  logical = c(TRUE, FALSE)
+)
+```
+]
+]
+
+???
+
+* a lightweight text format
+* easy for humans to read and write
+* easy for machines to parse and generate
+* annologue to list
+* `null` is `NA`
+
+---
+
+.left-column[
+## {jsonlite}
+]
+.right-column[
+## Reading json files
+
+```r
+library(jsonlite)
+url &lt;- "https://vega.github.io/vega-editor/app/data/movies.json"
+movies &lt;- read_json(url)
+length(movies)
+```
+
+```
+#&gt; [1] 3201
+```
+
+```r
+movies[[1]]
+```
+
+```
+#&gt; $Title
+#&gt; [1] "The Land Girls"
+#&gt; 
+#&gt; $US_Gross
+#&gt; [1] 146083
+#&gt; 
+#&gt; $Worldwide_Gross
+#&gt; [1] 146083
+#&gt; 
+#&gt; $US_DVD_Sales
+#&gt; NULL
+#&gt; 
+#&gt; $Production_Budget
+#&gt; [1] 8000000
+#&gt; 
+#&gt; $Release_Date
+#&gt; [1] "12-Jun-98"
+#&gt; 
+#&gt; $MPAA_Rating
+#&gt; [1] "R"
+#&gt; 
+#&gt; $Running_Time_min
+#&gt; NULL
+#&gt; 
+#&gt; $Distributor
+#&gt; [1] "Gramercy"
+#&gt; 
+#&gt; $Source
+#&gt; NULL
+#&gt; 
+#&gt; $Major_Genre
+#&gt; NULL
+#&gt; 
+#&gt; $Creative_Type
+#&gt; NULL
+#&gt; 
+#&gt; $Director
+#&gt; NULL
+#&gt; 
+#&gt; $Rotten_Tomatoes_Rating
+#&gt; NULL
+#&gt; 
+#&gt; $IMDB_Rating
+#&gt; [1] 6.1
+#&gt; 
+#&gt; $IMDB_Votes
+#&gt; [1] 1071
+```
+]
+
+???
+
+* read from url
+* but url is temporary
+* labs/assignments must use relative path, no web url accepted
+
+---
+
+.left-column[
+## {jsonlite}
+]
+.right-column[
+## Reading json files as tibbles
+
+```r
+movies_tbl &lt;- as_tibble(read_json(url, simplifyVector = TRUE))
+movies_tbl
+```
+
+```
+#&gt; # A tibble: 3,201 x 16
+#&gt;   Title                US_Gross Worldwide_Gross US_DVD_Sales
+#&gt;   &lt;chr&gt;                   &lt;int&gt;           &lt;dbl&gt;        &lt;int&gt;
+#&gt; 1 The Land Girls         146083          146083           NA
+#&gt; 2 First Love, Last Ri…    10876           10876           NA
+#&gt; 3 I Married a Strange…   203134          203134           NA
+#&gt; 4 Let's Talk About Sex   373615          373615           NA
+#&gt; 5 Slam                  1009819         1087521           NA
+#&gt; 6 Mississippi Mermaid     24551         2624551           NA
+#&gt; # … with 3,195 more rows, and 12 more variables:
+#&gt; #   Production_Budget &lt;int&gt;, Release_Date &lt;chr&gt;,
+#&gt; #   MPAA_Rating &lt;chr&gt;, Running_Time_min &lt;int&gt;,
+#&gt; #   Distributor &lt;chr&gt;, Source &lt;chr&gt;, Major_Genre &lt;chr&gt;,
+#&gt; #   Creative_Type &lt;chr&gt;, Director &lt;chr&gt;,
+#&gt; #   Rotten_Tomatoes_Rating &lt;int&gt;, IMDB_Rating &lt;dbl&gt;,
+#&gt; #   IMDB_Votes &lt;int&gt;
+```
+]
+
+---
+
+.left-column[
+.center[&lt;img src="https://github.com/r-spatial/sf/raw/master/man/figures/logo.png" width="80%"&gt;]
+]
+.right-column[
+## Reading spatial data*
+
+```r
+library(sf)
+akl_bus &lt;- st_read("data/BusService/BusService.shp")
+```
+
+```
+#&gt; Reading layer `BusService' from data source `/Users/wany568/Teaching/stats220/lectures/data/BusService/BusService.shp' using driver `ESRI Shapefile'
+#&gt; Simple feature collection with 509 features and 7 fields
+#&gt; geometry type:  MULTILINESTRING
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 1727652 ymin: 5859539 xmax: 1787138 ymax: 5982575
+#&gt; projected CRS:  NZGD2000_New_Zealand_Transverse_Mercator_2000
+```
+
+.footnote[data source: [**Auckland Transport Open GIS Data**](https://data-atgis.opendata.arcgis.com/datasets/bus-route/data?geometry=169.841%2C-37.610%2C179.685%2C-36.072)]
+]
+
+???
+
+* sf: simple features
+* spatial data: points, lines from a to b (bus routes), polygons
+
+---
+
+.left-column[
+.center[&lt;img src="https://github.com/r-spatial/sf/raw/master/man/figures/logo.png" width="80%"&gt;]
+]
+.right-column[
+## Reading spatial data*
+
+```r
+library(sf)
+akl_bus &lt;- st_read("data/BusService/BusService.shp")
+```
+
+```
+#&gt; Reading layer `BusService' from data source `/Users/wany568/Teaching/stats220/lectures/data/BusService/BusService.shp' using driver `ESRI Shapefile'
+#&gt; Simple feature collection with 509 features and 7 fields
+#&gt; geometry type:  MULTILINESTRING
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 1727652 ymin: 5859539 xmax: 1787138 ymax: 5982575
+#&gt; projected CRS:  NZGD2000_New_Zealand_Transverse_Mercator_2000
+```
+
+.footnote[data source: [**Auckland Transport Open GIS Data**](https://data-atgis.opendata.arcgis.com/datasets/bus-route/data?geometry=169.841%2C-37.610%2C179.685%2C-36.072)]
+]
+
+---
+
+.left-column[
+.center[&lt;img src="https://github.com/r-spatial/sf/raw/master/man/figures/logo.png" width="80%"&gt;]
+]
+.right-column[
+## Reading spatial data*
+
+```r
+akl_bus[1:4, ]
+```
+
+```
+#&gt; Simple feature collection with 4 features and 7 fields
+#&gt; geometry type:  MULTILINESTRING
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 1751253 ymin: 5915245 xmax: 1758019 ymax: 5921383
+#&gt; projected CRS:  NZGD2000_New_Zealand_Transverse_Mercator_2000
+#&gt;   OBJECTID ROUTEPATTE AGENCYNAME                                 ROUTENAME
+#&gt; 1   343077      02005        NZB St Lukes To Wynyard Quarter Via Kingsland
+#&gt; 2   343078      02006        NZB Wynyard Quarter To St Lukes Via Kingsland
+#&gt; 3   343079      02209        NZB  Avondale To City Centre Via New North Rd
+#&gt; 4   343080      02208        NZB  City Centre To Avondale Via New North Rd
+#&gt;   ROUTENUMBE MODE Shape__Len                       geometry
+#&gt; 1         20  Bus   7948.418 MULTILINESTRING ((1755487 5...
+#&gt; 2         20  Bus   7919.198 MULTILINESTRING ((1756321 5...
+#&gt; 3        22A  Bus  11419.588 MULTILINESTRING ((1757613 5...
+#&gt; 4        22A  Bus  11607.711 MULTILINESTRING ((1757346 5...
+```
+]
+
+---
+
+.left-column[
+.center[&lt;img src="https://github.com/r-spatial/sf/raw/master/man/figures/logo.png" width="80%"&gt;]
+]
+.right-column[
+## Spatial visualisation*
+
+.panelset[
+
+.panel[.panel-name[Map]
+
+&lt;img src="figure/sf-plot-1.png" width="78%" style="display: block; margin: auto;" /&gt;
+
+.panel[.panel-name[R Code]
+
+
+```r
+library(ggplot2)
+ggplot() +
+  geom_sf(data = akl_bus, aes(colour = AGENCYNAME))
+```
+]
+]
+]
+]
+
+???
+
+* rich data fmts: audio, images, etc
+* seen an unseen file type: google that type and the corresponding r function
+
+---
+
+class: inverse middle
+
+# Data export ⬆️
+
+---
+
+class: middle
+
+## From `read_*()` to `write_*()`
+
+
+```r
+write_csv(movies_tbl, file = "data/movies.csv")
+write_sas(movies_tbl, path = "data/movies.sas7bdat")
+write_json(movies_tbl, path = "data/movies.json")
+```
+
+---
+
+## Reading
+
+.pull-left[
+.center[[&lt;img src="https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png" height="320px"&gt;](https://r4ds.had.co.nz)]
+* [Tibbles](https://r4ds.had.co.nz/tibbles.html)
+* [Data import](https://r4ds.had.co.nz/data-import.html)
+]
+.pull-right[
+.center[[&lt;img src="https://d33wubrfki0l68.cloudfront.net/565916198b0be51bf88b36f94b80c7ea67cafe7c/7f70b/cover.png" height="320px"&gt;](https://adv-r.hadley.nz)]
+* [Subsetting](https://adv-r.hadley.nz/subsetting.html#subset-single)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
